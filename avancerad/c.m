@@ -1,5 +1,6 @@
 clear;close all; clc;
 
+%Uppgift c)
 
 konst.m = 0.026;
 konst.Kx=0.001;
@@ -11,14 +12,17 @@ konst.bulsy=1.83;
 konst.h=1.85;
 konst.tol=10^-6;
 
+%Main------------------------------------------------------------------
+
 guess1 = [17 18]; 
 svar = sekmet(@(V0) f(V0,konst), guess1, konst);
 disp("Svar 1: "+svar);
 
 
 
-%---------------------------------------------------------------------
+%Funktioner-------------------------------------------------------------
 
+%Sekantmetod
 function r = sekmet(f,guess,konst)
 
 t=1; x1=guess(1); x0=guess(2);
@@ -36,11 +40,8 @@ r= x2;
 end
 
 
-%-------------------------------------------------------------------
-
+%Returnerar träffpunkt som funktion av V0 se uppg. a) (Avancerad)
 function trff = f(V0, konst)
-
-
 
 dx0=V0*cos(konst.phi*2*pi/360);
 dy0=V0*sin(konst.phi*2*pi/360);
@@ -59,8 +60,7 @@ trff=y(end)-konst.bulsy;
 
 end
 
-%-------------------------------------------------------------------
-
+%Se uppg. a) (Avancerad)
 function dxdt = odefun(t,y,konst)
 
 dxdt=zeros(4,1);
@@ -72,8 +72,7 @@ dxdt(4) = -konst.g-(konst.Ky/konst.m)*y(4)*sqrt(y(2)^2+y(4)^2);
 
 end
 
-%---------------------------------------------------------------
-
+%Se uppg. a) (Avancerad)
 function [value, isterminal, direction] = stopfun(t,y,konst)
 
 value = y(1) >= konst.d;

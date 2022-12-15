@@ -1,4 +1,7 @@
 clear;close all; clc;
+
+%Uppgift a)
+
 konst.m = 0.026;
 konst.Kx=0.001;
 konst.Ky=0.01;
@@ -13,12 +16,14 @@ konst.tol=10^-6;
 dx0=konst.V0*cos(konst.phi*2*pi/360);
 dy0=konst.V0*sin(konst.phi*2*pi/360);
 
-
 y0=[0 dx0 konst.h dy0];
 
 t_span = [0 2];
 
+%Inställningar för ode45, sätter relativ- och absoluttolerans samt
+%implementerar stopfunktionen
 opts = odeset("RelTol",konst.tol,"AbsTol",konst.tol,"Events",@(t,y) stopfun(t,y,konst));
+
 
 [t,val] = ode45(@(t,y) odefun(t,y,konst),t_span,y0,opts);
 
@@ -31,6 +36,8 @@ disp("Svar: "+trff)
 
 %Funktioner-----------------------------------------------------
 
+
+%Returnerar ekvationssystem behandlingsbart av ode45
 function dxdt = odefun(t,y,konst)
 
 dxdt=zeros(4,1);
@@ -42,8 +49,7 @@ dxdt(4) = -konst.g-(konst.Ky/konst.m)*y(4)*sqrt(y(2)^2+y(4)^2);
 
 end
 
-%---------------------------------------------------------------
-
+%Stopfunktion, används för att stoppa ode45 vid x = 2.37
 function [value, isterminal, direction] = stopfun(t,y,konst)
 
 value = y(1) >= konst.d;

@@ -12,6 +12,7 @@ konst.g = 9.82;
 konst.d = 2.37;
 konst.tol = 10^-6;
 
+%Main-----------------------------------------------------------------
 
 phi1 = sekmet(@(phi) f(phi, konst), 4, 5, konst);
 phi2 = sekmet(@(phi) f(phi, konst), 80, 83, konst);
@@ -22,8 +23,9 @@ disp("Vinkel 2 : "+phi2)
 
 
 
-%Funktioner
+%Funktioner----------------------------------------------------------
 
+%Sekantmetoden
 function r = sekmet(f,x1,x0,konst)
 t=1;
 
@@ -38,11 +40,12 @@ r = x2;
 
 end
 
-
+%Räknar ut träffpunkt enl. uppg. a, som en funktion av kastvinkel phi
 function trff = f(phi, konst)
 d2x=@(dx,dy) (- ( konst.Kx / konst.m )* dx* sqrt( dx^2 + dy^2 ) );
 d2y=@(dx,dy) (- konst.g-( konst.Ky / konst.m )* dy* sqrt( dx^2 + dy^2 ) );
 
+%Steglängd som uppfyller trunkeringsvilkor i uppg. a
 dt= 9.765625000000000e-05;
 
 clear x y dx dy t
@@ -62,8 +65,6 @@ while x(end) < konst.d
     [dx(end+1),dy(end+1)] = rk4(d2x,d2y,dx(end),dy(end),dt);
 
 end
-
-%dt2: steglängd som krävs för att x(end) = 2.37
 
 dt2 = ( konst.d - x(end-1) ) / dx(end-1);
 y(end) = y(end-1) + dy(end-1) * dt2;

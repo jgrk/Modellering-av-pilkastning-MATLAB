@@ -1,5 +1,6 @@
 clear;close all; clc;
 
+%Uppgift b)
 
 konst.m = 0.026;
 konst.Kx=0.001;
@@ -11,15 +12,18 @@ konst.h=1.85;
 konst.V0=13;
 konst.tol=10^-6;
 
-guess1 = [4 5]; guess2 = [80 83];
-svar1 = sekmet(@(phi) f(phi,konst), guess1, konst);
-svar2 = sekmet(@(phi) f(phi, konst), guess2, konst);
+%Main--------------------------------------------------------------------
+
+gissa1 = [4 5]; gissa2 = [80 83];
+svar1 = sekmet(@(phi) f(phi,konst), gissa1, konst);
+svar2 = sekmet(@(phi) f(phi, konst), gissa2, konst);
 disp("Svar 1: "+svar1);
 disp("Svar 2: "+svar2)
 
 
-%---------------------------------------------------------------------
+%Funktioner--------------------------------------------------------------
 
+%Sekantmetod
 function r = sekmet(f,guess,konst)
 
 t=1; x1=guess(1); x0=guess(2);
@@ -37,11 +41,8 @@ r= x2;
 end
 
 
-%-------------------------------------------------------------------
-
+%Räknar utt träffpunkt som en funktion av kastvinkeln phi, enl. uppg. a)
 function trff = f(phi, konst)
-
-
 
 dx0=konst.V0*cos(phi*2*pi/360);
 dy0=konst.V0*sin(phi*2*pi/360);
@@ -60,7 +61,7 @@ trff=y(end)-konst.bulsy;
 
 end
 
-%-------------------------------------------------------------------
+%Se uppg. a)
 
 function dxdt = odefun(t,y,konst)
 
@@ -73,7 +74,7 @@ dxdt(4) = -konst.g-(konst.Ky/konst.m)*y(4)*sqrt(y(2)^2+y(4)^2);
 
 end
 
-%---------------------------------------------------------------
+%Se uppg. a)
 
 function [value, isterminal, direction] = stopfun(t,y,konst)
 
