@@ -1,0 +1,51 @@
+clear;close all; clc;
+konst.m = 0.026;
+konst.Kx=0.001;
+konst.Ky=0.01;
+konst.g=9.82;
+konst.d=2.37;
+konst.bulsy=1.83;
+konst.h=1.85;
+konst.phi=5;
+konst.V0=13;
+konst.tol=10^-6;
+
+dx0=konst.V0*cos(konst.phi*2*pi/360);
+dy0=konst.V0*sin(konst.phi*2*pi/360);
+
+
+y0=[0 dx0 konst.h dy0];
+
+t_span = [0 2];
+
+opts = odeset("RelTol",konst.tol,"AbsTol",konst.tol,"Events",@(t,y) stopfun(t,y,konst));
+
+[t,val] = ode45(@(t,y) odefun(t,y,konst),t_span,y0,opts);
+
+y=val(:,3);
+trff=y(end);
+
+disp("Svar: "+trff)
+
+
+
+%Funktioner-----------------------------------------
+
+function dxdt = odefun(t,y,konst)
+
+dxdt=zeros(4,1);
+
+dxdt(1) = y(2);
+dxdt(2) = -(konst.Kx/konst.m)*y(2)*sqrt(y(2)^2+y(4)^2);
+dxdt(3) = y(4);
+dxdt(4) = -konst.g-(konst.Ky/konst.m)*y(4)*sqrt(y(2)^2+y(4)^2);
+
+end
+
+function [value, isterminal, direction] = stopfun(t,y,konst)
+
+value = y(1) >= konst.d;
+isterminal = 1;
+direction = 0;
+
+end

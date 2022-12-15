@@ -1,0 +1,4 @@
+FÖr att analysera hur begynnelsehastigheten varierar med massan, 
+givet träffpunkt i bullseye, används skriptet från c-uppgiften. Genom att 
+köra koden för olika värden av massan m, kan man enkelt fastställa att 
+begynnelsehastigheten som krävs, minskar som när massan ökar.
