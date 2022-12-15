@@ -9,11 +9,11 @@ konst.bulsy = 1.83;
 konst.m = 0.026;
 konst.g = 9.82;
 konst.d = 2.37;
-konst.tol = 10^-7;
+konst.tol = 10^-6;
 konst.phi = 2;
 
 
-V0 = sekmet(@f, 17, 18, konst);
+V0 = sekmet(@(V0) f(V0, konst), 17, 18, konst);
 
 disp("Hastighet som krävs : "+V0)
 
@@ -27,7 +27,7 @@ function r = sekmet(f,x1,x0,konst)
 t=1;
 
 while abs(t) > konst.tol
-    t = f(x1, konst) * ( x1 - x0 ) / ( f(x1, konst) - f(x0, konst) );
+    t = f(x1) * ( x1 - x0 ) / ( f(x1) - f(x0) );
     x2 = x1 - t;
     x0 = x1;
     x1 = x2;

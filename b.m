@@ -10,11 +10,11 @@ konst.m = 0.026;
 konst.V0 = 13;
 konst.g = 9.82;
 konst.d = 2.37;
-konst.tol = 10^-4;
+konst.tol = 10^-6;
 
 
-phi1 = sekmet(@f, 4, 5, konst);
-phi2 = sekmet(@f, 80, 83, konst);
+phi1 = sekmet(@(phi) f(phi, konst), 4, 5, konst);
+phi2 = sekmet(@(phi) f(phi, konst), 80, 83, konst);
 
 disp("Vinkel 1 : "+phi1)
 disp("Vinkel 2 : "+phi2)
@@ -28,7 +28,7 @@ function r = sekmet(f,x1,x0,konst)
 t=1;
 
 while abs(t) > konst.tol
-    t = f(x1, konst) * ( x1 - x0 ) / ( f(x1, konst) - f(x0, konst) );
+    t = f(x1) * ( x1 - x0 ) / ( f(x1) - f(x0) );
     x2 = x1 - t;
     x0 = x1;
     x1 = x2;
@@ -39,15 +39,11 @@ r = x2;
 end
 
 
-
 function trff = f(phi, konst)
 d2x=@(dx,dy) (- ( konst.Kx / konst.m )* dx* sqrt( dx^2 + dy^2 ) );
 d2y=@(dx,dy) (- konst.g-( konst.Ky / konst.m )* dy* sqrt( dx^2 + dy^2 ) );
 
-maxiter = 50;
 dt= 9.765625000000000e-05;
-
-
 
 clear x y dx dy t
 
