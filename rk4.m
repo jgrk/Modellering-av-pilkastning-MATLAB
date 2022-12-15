@@ -1,3 +1,5 @@
+%Returnerar ett Runge-Kutta steg. Tar emot andragrads DE från
+%projektlydelsen, initialvärden och en given steglängd 
 function [dx1,dy1] = rk4(d2x, d2y, dx0, dy0, dt)
     
 k1 = d2x(dx0,dy0);
