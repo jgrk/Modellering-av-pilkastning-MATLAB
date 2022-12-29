@@ -1,6 +1,8 @@
 clc;clear;close all;
 
-%Uppgift a) första utkast
+%Uppgift a)
+
+%Konstanter/Parametrar
 
 konst.Kx = .001; 
 konst.Ky = .01;
@@ -13,6 +15,7 @@ konst.phi = 5;
 konst.d = 2.37;
 konst.tol = 10^-5;
 
+%Reducerat ekvationssystem
 du=@(u) [u(2); 
     (- ( konst.Kx / konst.m )* u(2)* sqrt( u(2)^2 + u(4)^2 ) ); 
     u(4); 
@@ -38,6 +41,8 @@ for iter = 1:maxiter
     while u(1,end) < konst.d
         
         t(end+1) = t(end) + dt;
+
+        %RK4
         k1 = du( u(:,end) );
         k2 = du( u(:,end) + dt*.5*k1 );
         k3 = du( u(:,end) + dt*.5*k2 );
@@ -47,11 +52,13 @@ for iter = 1:maxiter
     
     end
     
-    %dt2: steglängd som krävs för att x(end) = 2.37
+    %Interpolation, linjär.
+    %Sista steglängden görs med dt2 som är s.a. sista x-elementet är exakt 
+    %2.37. 
     
-    dt2 = ( konst.d - u(1,end-1) ) / u(2,end-1);
+    dt2 = 6*( konst.d - u(1,end-1) ) / (k1(1)+2*k2(1)+2*k3(1)+k4(1));
     t(end) = t(end-1) + dt2;
-    u(:,end) = u(:,end-1) + du( u(:,end-1) )*dt2;
+    u(:,end) = u(:,end-1) + ( k1+2*k2+2*k3+k4 )*dt2/6;
 
     x = u(1,:);
     y = u(3,:);
@@ -72,20 +79,10 @@ for iter = 1:maxiter
 
 end
 
+%Presentation
 disp("Svar: "+trff)
 plot(t,x,t,y,t(end),konst.bulsy,"x")
 legend({"x(t)","y(t)","Bullseye"},"Location","SouthEast")
 xlabel("tid [s]")
 ylabel("Sträcka [m]")
-
-
-
-%Funktioner-------------------------------------------------
-
-%Eulers metod
-%Runge-Kutta 4
-
-
-
-%%
 

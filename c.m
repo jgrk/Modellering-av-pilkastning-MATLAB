@@ -2,6 +2,7 @@ clc;clear;close all;
 
 %Uppgift c)
 
+%Konstanter/Parametrar
 konst.Kx = .001; 
 konst.Ky = .01;
 konst.h = 1.85;
@@ -9,25 +10,23 @@ konst.bulsy = 1.83;
 konst.m = 0.026;
 konst.g = 9.82;
 konst.d = 2.37;
-konst.tol = 10^-7;
+konst.tol = 10^-5;
 konst.phi = 2;
 
-
-V0 = sekmet(@f, 17, 18, konst);
+%Huvudprogram
+V0 = sekmet(@(x) f(x, konst), 17, 18, konst);
 
 disp("Hastighet som krävs : "+V0)
 
 
-
-
-
 %Funktioner
 
+%Sekantmetoden, se b) för beskrivning
 function r = sekmet(f,x1,x0,konst)
 t=1;
 
 while abs(t) > konst.tol
-    t = f(x1, konst) * ( x1 - x0 ) / ( f(x1, konst) - f(x0, konst) );
+    t = f(x1) * ( x1 - x0 ) / ( f(x1) - f(x0) );
     x2 = x1 - t;
     x0 = x1;
     x1 = x2;
@@ -38,7 +37,9 @@ r = x2;
 end
 
 
-
+%Träffpunkt som en funktion av begynnelsehastighet
+%In: Begynnelsehastighet (V0)
+%Ut: Träffpunkt ovanför marken
 function trff = f(V0, konst)
 
 du=@(u) [u(2); 
@@ -75,7 +76,7 @@ end
 
 %dt2: steglängd som krävs för att x(end) = 2.37
 
-dt2 = ( konst.d - u(1,end-1) ) / u(2,end-1);
+dt2 = 6*( konst.d - u(1,end-1) ) / ( k1(1)+2*k2(1)+2*k3(1)+k4(1) );
 t(end) = t(end-1) + dt2;
 u(:,end) = u(:,end-1) + du( u(:,end-1) )*dt2;
 
@@ -84,5 +85,4 @@ trff = u(3,end) - konst.bulsy;
    
 
 end
-
 

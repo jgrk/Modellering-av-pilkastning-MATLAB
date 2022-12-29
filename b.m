@@ -10,25 +10,26 @@ konst.m = 0.026;
 konst.V0 = 13;
 konst.g = 9.82;
 konst.d = 2.37;
-konst.tol = 10^-4;
+konst.tol = 10^-5;
 
-
-phi1 = sekmet(@f, 4, 5, konst);
-phi2 = sekmet(@f, 80, 83, konst);
+%Huvudprogram
+phi1 = sekmet(@(x) f(x, konst), 4, 5, konst);
+phi2 = sekmet(@(x) f(x, konst), 80, 83, konst);
 
 disp("Vinkel 1 : "+phi1)
 disp("Vinkel 2 : "+phi2)
 
-
-
-
 %Funktioner
 
+
+%Sekantmetoden
+%In: funktion av  (f), gissningsvärden (x1,x0), struktur (konst)
+%Ut: roten till 
 function r = sekmet(f,x1,x0,konst)
 t=1;
 
 while abs(t) > konst.tol
-    t = f(x1, konst) * ( x1 - x0 ) / ( f(x1, konst) - f(x0, konst) );
+    t = f(x1) * ( x1 - x0 ) / ( f(x1) - f(x0) );
     x2 = x1 - t;
     x0 = x1;
     x1 = x2;
@@ -39,7 +40,9 @@ r = x2;
 end
 
 
-
+%Funktion som returnerar träffpunkt som funktion av kastvinkel (phi)
+%In: Kastvinkel (phi)
+%Ut: Träffpunkt ovanför marken
 function trff = f(phi, konst)
 
 du=@(u) [u(2); 
@@ -47,8 +50,7 @@ du=@(u) [u(2);
     u(4); 
     (- konst.g-( konst.Ky / konst.m )* u(4)* sqrt( u(2)^2 + u(4)^2 ) )];
 
-maxiter = 50;
-dt= 0.0063;
+dt= 0.00063;
 
 clear x y u t
 
@@ -74,14 +76,13 @@ end
 
 %dt2: steglängd som krävs för att x(end) = 2.37
 
-dt2 = ( konst.d - u(1,end-1) ) / u(2,end-1);
+dt2 = 6*( konst.d - u(1,end-1) ) / ( k1(1)+2*k2(1)+2*k3(1)+k4(1) );
 t(end) = t(end-1) + dt2;
-u(:,end) = u(:,end-1) + du( u(:,end-1) )*dt2;
+u(:,end) = u(:,end-1) + ( k1+2*k2+2*k3+k4 )*dt2/6;
 
 
 trff = u(3,end) - konst.bulsy;
    
 
 end
-
 

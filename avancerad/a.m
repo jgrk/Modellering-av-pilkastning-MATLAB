@@ -11,7 +11,7 @@ konst.bulsy=1.83;
 konst.h=1.85;
 konst.phi=5;
 konst.V0=13;
-konst.tol=10^-6;
+konst.tol=10^-5;
 
 dx0=konst.V0*cos(konst.phi*2*pi/360);
 dy0=konst.V0*sin(konst.phi*2*pi/360);
