@@ -3,9 +3,12 @@ Tavlan man kastar mot  ̈ar uppsatt med mittpunkten, kallad ”Bulls eye”, på
 Hastigheten hos pilarna hos olika kastare har med laser uppm ̈atts till mellan 10 och 30 m/s.
 Pilarna är mycket smala med fjädrar i bakkanten, så luftmotståndet i kastriktningen  ̈ar mycket lägre än tvärs pilen. Vi har att Kx = 0.001 och Ky = 0.01
 Kastbanan kan då beskrivas av följande uttryck:
+  
+  
   m (d^2/dt^2) = −mg − Ky  (dy/dt) *V
   mx = −Kx*(dx/dt)*V
   V = sqrt( (dx/dt)^2 + (dy/dt)^2 )
+
 Gravitationskonstanten  ̈ar g = 9.82N/kg.
 
 a) Om jag har pilar med massan 26 gram, kastar med hastigheten v0 = 13 m/s fr ̊an kasthöjden 185 cm i
