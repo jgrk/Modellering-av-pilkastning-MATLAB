@@ -6,7 +6,9 @@ Kastbanan kan då beskrivas av följande uttryck:
   
   
   m (d^2/dt^2) = −mg − Ky  (dy/dt) *V
+  
   mx = −Kx*(dx/dt)*V
+  
   V = sqrt( (dx/dt)^2 + (dy/dt)^2 )
 
 Gravitationskonstanten  ̈ar g = 9.82N/kg.
